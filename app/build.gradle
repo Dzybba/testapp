@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    defaultConfig {
+        applicationId "com.simapp.testapp"
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Kotlin
+    implementation rootProject.ext.kotlin_std_lib
+    //Google
+    implementation rootProject.ext.support_v4
+    implementation rootProject.ext.support_preference_v7
+    implementation rootProject.ext.support_preference_v14
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.support_design
+    implementation rootProject.ext.support_palette
+    implementation rootProject.ext.support_recycler_view
+    implementation rootProject.ext.constraint_layout
+
+    implementation rootProject.ext.gson
+    implementation rootProject.ext.archViewModel
+    implementation rootProject.ext.archExtensions
+    implementation rootProject.ext.dagger2
+    implementation rootProject.ext.dagger2android
+    implementation rootProject.ext.dagger2androidSupport
+    kapt rootProject.ext.dagger2androidAnnotationProcessor
+    implementation rootProject.ext.archExtensions
+    kapt rootProject.ext.dagger2annotationProcessor
+
+    //Third party
+    implementation rootProject.ext.javax_inject
+    implementation rootProject.ext.picasso
+    implementation rootProject.ext.jetbrains_annotations
+
+    //Rx
+    implementation rootProject.ext.rxjava2
+    implementation rootProject.ext.rxandroid2
+    //Social
+    implementation rootProject.ext.fb_sdk
+    implementation rootProject.ext.vk_sdk
+}

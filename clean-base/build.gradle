@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    implementation rootProject.ext.jetbrains_annotations
+    implementation rootProject.ext.kotlin_std_lib
+    implementation rootProject.ext.javax_inject
+    implementation rootProject.ext.rxjava2
+    implementation rootProject.ext.archViewModel
+    implementation rootProject.ext.archExtensions
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.support_design
+
+    implementation rootProject.ext.dagger2
+    kapt rootProject.ext.dagger2annotationProcessor
+    implementation rootProject.ext.dagger2android
+    implementation rootProject.ext.dagger2androidSupport
+    kapt rootProject.ext.dagger2androidAnnotationProcessor
+}
