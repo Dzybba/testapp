@@ -1,6 +1,7 @@
 package com.simapp.testapp.auth.data
 
 import android.content.Context
+import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import com.google.gson.Gson
@@ -16,15 +17,26 @@ import io.reactivex.processors.BehaviorProcessor
 import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.facebook.GraphRequest
+import com.facebook.AccessToken
+import com.facebook.HttpMethod
+import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Named
 
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-        context: Context
+        context: Context,
+        @Named("VK")
+        private val vkServerDataSource: IServerDataSource,
+        @Named("FB")
+        private val fbServerDataSource: IServerDataSource
 ) : IAuthRepository {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val userProcessor = BehaviorProcessor.create<User>()
+
+    private val compositeDisposable = CompositeDisposable()
 
     override fun saveAuthData(type: AuthTypes, token: String) {
         prefs
@@ -57,33 +69,27 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private fun requestUser(type: AuthTypes) {
-        when (type) {
-            AuthTypes.VK -> requestVkUser()
-            AuthTypes.FB -> {}
-            AuthTypes.GOOGLE -> TODO()
-        }
+        getDataSource(type)
+                ?.requestUser()
+                ?.subscribe(
+                        {
+                            userProcessor.onNext(it)
+                        },
+                        {
+
+                        })
+                ?.also {
+                    compositeDisposable.add(it)
+                }
+
     }
 
-    private fun requestVkUser() {
-        val request = VKRequest<JSONObject>(VK_REQUEST_METHOD)
-        request.addParam("fields", VK_FIELDS)
-        VK.execute(request, object : VKApiCallback<JSONObject> {
-            override fun fail(error: VKApiExecutionException) {
-                //ошибочка
-                Log.e("DD", "error load user")
-            }
-
-            override fun success(result: JSONObject) {
-                try {
-                    val jsonObject = result.getJSONArray("response").getJSONObject(0)
-                    val user = Gson().fromJson(jsonObject.toString(), VkUser::class.java)
-                    userProcessor.onNext(User("${user.first_name} ${user.last_name} ${user.screen_name}", user.photo_100))
-                } catch (th: Throwable) {
-                    //ошибочка
-                }
-            }
-        })
-
+    private fun getDataSource(type: AuthTypes): IServerDataSource? {
+        return when (type) {
+            AuthTypes.VK -> vkServerDataSource
+            AuthTypes.FB -> fbServerDataSource
+            AuthTypes.GOOGLE -> null
+        }
     }
 
     override fun hasAuthData(): Boolean {
@@ -93,14 +99,6 @@ class AuthRepositoryImpl @Inject constructor(
     companion object {
         private const val AUTH_TYPE_KEY = "AUTH_TYPE_KEY"
         private const val AUTH_TOKEN_KEY = "AUTH_TOKEN_KEY"
-        private const val VK_FIELDS = "first_name,last_name,photo_100,screen_name"
-        private const val VK_REQUEST_METHOD = "users.get"
     }
 
-    data class VkUser(
-            val first_name: String = "",
-            val last_name: String = "",
-            val screen_name: String = "",
-            val photo_100: String = ""
-    )
 }

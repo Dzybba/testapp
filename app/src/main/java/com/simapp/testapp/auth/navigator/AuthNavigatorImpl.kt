@@ -92,9 +92,9 @@ class AuthNavigatorImpl @Inject constructor() : IAuthNavigator {
         val loginManager = LoginManager.getInstance()
         callbackManager = CallbackManager.Factory.create()
         val currentAccessToken = AccessToken.getCurrentAccessToken()
-        if (currentAccessToken != null) {
-            if (currentAccessToken.isExpired) {
-                return Maybe.create<String> { emitter ->
+        return if (currentAccessToken != null) {
+            return if (currentAccessToken.isExpired) {
+                Maybe.create<String> { emitter ->
                     AccessToken.refreshCurrentAccessTokenAsync(object : AccessToken.AccessTokenRefreshCallback {
                         override fun OnTokenRefreshed(accessToken: AccessToken) {
                             emitter.onSuccess(accessToken.token)
@@ -109,13 +109,14 @@ class AuthNavigatorImpl @Inject constructor() : IAuthNavigator {
             } else {
                 Maybe.just(currentAccessToken.token)
             }
+        } else {
+            loginInFb(activity, loginManager)
         }
-        return loginInFb(activity, loginManager)
     }
 
     private fun loginInFb(activity: FragmentActivity, loginManager: LoginManager): Maybe<String> {
         activity as IRxActivity
-        loginManager.logInWithReadPermissions(activity, listOf("public_profile"))
+        loginManager.logInWithReadPermissions(activity, listOf("public_profile, user_photos"))
         return activity
                 .rxActivityResult
                 .doOnNext {
