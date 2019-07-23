@@ -1,5 +1,6 @@
 package com.simapp.testapp.di
 
+import com.simapp.testapp.auth.presentation.AuthFragmentModule
 import com.simapp.testapp.ui.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,6 +14,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBindingModule {
     @Suppress("unused")
     @ActivityScoped
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [AuthFragmentModule::class])
     abstract fun mainActivity(): MainActivity
 }

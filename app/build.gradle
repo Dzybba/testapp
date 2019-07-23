@@ -20,6 +20,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':clean-base')
+
     //Kotlin
     implementation rootProject.ext.kotlin_std_lib
     //Google

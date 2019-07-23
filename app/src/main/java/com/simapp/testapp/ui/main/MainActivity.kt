@@ -9,6 +9,7 @@ import com.simapp.testapp.R
 import com.simapp.testapp.auth.domain.AuthTypes
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.IAuthNavigator
+import com.simapp.testapp.auth.presentation.AuthFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -23,12 +24,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, IRxActivit
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    @Inject
-    lateinit var authUseCases: IAuthUseCases
-
-    @Inject
-    lateinit var authNavigator: IAuthNavigator
-
 
     private var onStartSubscriptions = CompositeDisposable()
     private var onCreateSubscriptions = CompositeDisposable()
@@ -42,16 +37,14 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, IRxActivit
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        onCreateSubscriptions.add(authNavigator
-                .runAuth(this, AuthTypes.VK)
-                .subscribe(
-                        {
-                            Log.e("DD", "get result $it")
-                        },
-                        {
 
-                        })
-        )
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_area, AuthFragment())
+                    .commit()
+        }
+
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {

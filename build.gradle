@@ -104,7 +104,6 @@ subprojects {
                     minSdkVersion project.ext.minSdkVersion
                     compileSdkVersion project.ext.compileSdkVersion
                     targetSdkVersion project.ext.targetSdkVersion
-                    multiDexEnabled true
                     renderscriptTargetApi 19
                     renderscriptSupportModeEnabled true
                 }
