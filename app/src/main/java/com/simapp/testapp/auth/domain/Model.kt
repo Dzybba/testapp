@@ -8,5 +8,5 @@ enum class AuthTypes {
 
 data class User(
         val name: String,
-        val photoId: Long
+        val photoUrl: String
 )

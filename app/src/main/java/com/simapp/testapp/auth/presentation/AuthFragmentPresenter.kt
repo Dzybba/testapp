@@ -36,6 +36,7 @@ class AuthFragmentPresenter @Inject constructor(
                             .subscribe(
                                     { token ->
                                         authUseCases.saveAuthData(type, token)
+                                        authUseCases.loadUser().subscribe()
                                     },
                                     {
                                         //log error

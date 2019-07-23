@@ -49,7 +49,7 @@ ext {
 
     // square / Jake Wharton
     picasso = 'com.squareup.picasso:picasso:2.5.2'
-
+    retrofit = 'com.squareup.retrofit2:retrofit:2.6.0'
     //other
     jetbrains_annotations = 'org.jetbrains:annotations:13.0'
     kotlin_std_lib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

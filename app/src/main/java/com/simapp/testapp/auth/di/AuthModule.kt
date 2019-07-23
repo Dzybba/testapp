@@ -1,6 +1,8 @@
 package com.simapp.testapp.auth.di
 
+import com.simapp.testapp.auth.data.AuthRepositoryImpl
 import com.simapp.testapp.auth.domain.AuthUseCasesImpl
+import com.simapp.testapp.auth.domain.IAuthRepository
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.AuthNavigatorImpl
 import com.simapp.testapp.auth.navigator.IAuthNavigator
@@ -13,4 +15,7 @@ abstract class AuthModule {
     abstract fun getAuthUseCases(useCases: AuthUseCasesImpl): IAuthUseCases
     @Binds
     abstract fun getNavigator(navigatorImpl: AuthNavigatorImpl): IAuthNavigator
+
+    @Binds
+    abstract fun repository(rep: AuthRepositoryImpl): IAuthRepository
 }
