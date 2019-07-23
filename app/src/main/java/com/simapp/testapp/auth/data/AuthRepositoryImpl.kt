@@ -59,7 +59,7 @@ class AuthRepositoryImpl @Inject constructor(
     private fun requestUser(type: AuthTypes) {
         when (type) {
             AuthTypes.VK -> requestVkUser()
-            AuthTypes.FB -> TODO()
+            AuthTypes.FB -> {}
             AuthTypes.GOOGLE -> TODO()
         }
     }
