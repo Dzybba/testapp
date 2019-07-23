@@ -2,6 +2,7 @@ package com.simapp.testapp.di
 
 import android.app.Application
 import com.simapp.testapp.TestAppApplication
+import com.simapp.testapp.auth.di.AuthModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -15,10 +16,13 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    (AppModule::class),
-    (ActivityBindingModule::class),
-    (AndroidSupportInjectionModule::class)])
+    AppModule::class,
+    ActivityBindingModule::class,
+    AndroidSupportInjectionModule::class,
+    AuthModule::class
+])
 interface AppComponent : AndroidInjector<TestAppApplication> {
+
 
     // Gives us syntactic sugar. we can then do DaggerAppComponent.builder().application(this).build().inject(this);
     // never having to instantiate any modules or say which module we are passing the application to.
