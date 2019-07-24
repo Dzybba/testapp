@@ -13,7 +13,6 @@ import com.simapp.testapp.R
 import com.simapp.testapp.auth.domain.AuthTypes
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import kotlinx.android.synthetic.main.auth_fragment_layout.*
 import kotlinx.android.synthetic.main.auth_list_item.view.*
 
 @Module
@@ -39,8 +38,10 @@ class AuthFragment : DaggerBaseCleanFragment<IContract.IAuthView, AuthFragmentPr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        auth_list.adapter = adapter
-        auth_list.layoutManager = LinearLayoutManager(context)
+        view.findViewById<RecyclerView>(R.id.list)?.also {
+            it.adapter = adapter
+            it.layoutManager = LinearLayoutManager(context)
+        }
     }
 
     override fun submintAuthList(list: List<AuthListItem>) {

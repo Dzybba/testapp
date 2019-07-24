@@ -1,14 +1,10 @@
 package com.simapp.testapp.auth.di
 
-import com.simapp.testapp.auth.data.AuthRepositoryImpl
-import com.simapp.testapp.auth.data.FbServerDataSource
-import com.simapp.testapp.auth.data.IServerDataSource
-import com.simapp.testapp.auth.data.VkServerDataSource
+import com.simapp.testapp.auth.data.*
 import com.simapp.testapp.auth.domain.AuthUseCasesImpl
 import com.simapp.testapp.auth.domain.IAuthRepository
 import com.simapp.testapp.auth.domain.IAuthUseCases
-import com.simapp.testapp.auth.navigator.AuthNavigatorImpl
-import com.simapp.testapp.auth.navigator.IAuthNavigator
+import com.simapp.testapp.auth.navigator.*
 import dagger.Binds
 import dagger.Module
 import javax.inject.Named
@@ -30,4 +26,21 @@ abstract class AuthModule {
     @Binds
     @Named("FB")
     abstract fun getFBServerDataSource(ds: FbServerDataSource): IServerDataSource
+
+    @Binds
+    @Named("GOOGLE")
+    abstract fun getGoogleServerDataSource(ds: GoogleUserDataSource): IServerDataSource
+
+    @Binds
+    @Named("VK")
+    abstract fun getVkNavigator(navigator: VkAuthNavigatorImpl): IAuthNetworkNavigator
+
+    @Binds
+    @Named("FB")
+    abstract fun getFbNavigator(navigator: FbAuthNavigatorImpl): IAuthNetworkNavigator
+
+    @Binds
+    @Named("GOOGLE")
+    abstract fun getGoogleNavigator(navigator: GoogleAuthNavigatorImpl): IAuthNetworkNavigator
+
 }

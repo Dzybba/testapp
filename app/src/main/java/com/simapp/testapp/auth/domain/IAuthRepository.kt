@@ -5,6 +5,6 @@ import io.reactivex.Maybe
 interface IAuthRepository {
     fun saveAuthData(type: AuthTypes, token: String)
     fun removeAuthData()
-    fun loadUser(): Maybe<User>
+    fun loadUser(): Maybe<LoadUserResult>
     fun hasAuthData(): Boolean
 }

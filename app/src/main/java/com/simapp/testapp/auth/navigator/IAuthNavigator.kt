@@ -6,4 +6,5 @@ import io.reactivex.Maybe
 
 interface IAuthNavigator {
     fun runAuth(activity: FragmentActivity, type: AuthTypes): Maybe<String>
+    fun getResult(activity: FragmentActivity, type: AuthTypes): Maybe<String>
 }

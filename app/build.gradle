@@ -34,6 +34,8 @@ dependencies {
     implementation rootProject.ext.support_recycler_view
     implementation rootProject.ext.constraint_layout
 
+    implementation rootProject.ext.google_auth
+
     implementation rootProject.ext.gson
     implementation rootProject.ext.archViewModel
     implementation rootProject.ext.archExtensions

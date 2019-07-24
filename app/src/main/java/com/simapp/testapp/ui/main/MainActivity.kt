@@ -24,10 +24,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, IRxActivit
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
-
-    private var onStartSubscriptions = CompositeDisposable()
-    private var onCreateSubscriptions = CompositeDisposable()
-
     private val activityResult = PublishProcessor.create<ActivityResult>()
     override val rxActivityResult: Flowable<ActivityResult>
         get() = activityResult
@@ -54,5 +50,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, IRxActivit
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         activityResult.onNext(ActivityResult(requestCode, resultCode, data))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activityResult.onComplete()
     }
 }

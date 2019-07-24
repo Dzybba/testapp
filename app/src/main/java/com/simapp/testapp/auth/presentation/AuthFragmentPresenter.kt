@@ -1,9 +1,11 @@
 package com.simapp.testapp.auth.presentation
 
+import android.util.Log
 import com.simapp.clean.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.AuthTypes
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.IAuthNavigator
+import io.reactivex.Maybe
 import javax.inject.Inject
 
 class AuthFragmentPresenter @Inject constructor(
@@ -11,13 +13,15 @@ class AuthFragmentPresenter @Inject constructor(
         private val navigator: IAuthNavigator
 ) : BaseCleanPresenter<IContract.IAuthView>() {
 
+    private var requestingAuthType: AuthTypes? = null
+
     override fun onCreate() {
         super.onCreate()
         authUseCases
                 .getAvailableAuthNetworks()
                 .map { type ->
                     AuthListItem(type,
-                            when(type) {
+                            when (type) {
                                 AuthTypes.VK -> "Вконтакте"
                                 AuthTypes.FB -> "FaceBook"
                                 AuthTypes.GOOGLE -> "Google"
@@ -26,24 +30,48 @@ class AuthFragmentPresenter @Inject constructor(
                 .also { list ->
                     view?.submintAuthList(list)
                 }
+        //подписываемся на результат при повороте экрана
+        requestingAuthType?.also { type ->
+            withActivity {
+                navigator
+                        .getResult(it, type)
+                        .handleNavigatorResult(type)
+            }
+        }
     }
 
     fun onItemClick(type: AuthTypes) {
         withActivity {
-            onCreateViewSubscription.add(
-                    navigator
-                            .runAuth(it, type)
-                            .subscribe(
-                                    { token ->
-                                        authUseCases.saveAuthData(type, token)
-                                        authUseCases.loadUser().subscribe()
-                                    },
-                                    {
-                                        //log error
-                                    }
-                            )
-            )
+            requestingAuthType = type
+            navigator
+                    .runAuth(it, type)
+                    .handleNavigatorResult(type)
         }
+    }
+
+    private fun Maybe<String>.handleNavigatorResult(type: AuthTypes) {
+        this
+                .subscribe(
+                        { token ->
+                            requestingAuthType = null
+                            authUseCases.saveAuthData(type, token)
+                            authUseCases
+                                    .loadUser()
+                                    .subscribe(
+                                            {
+                                                 Log.e("DD", "load user result $it")
+                                            },
+                                            {
+                                                //исключение
+                                            }
+                            )
+                        },
+                        {
+                            //log error
+                            requestingAuthType = null
+                        }
+                )
+                .also { onCreateViewSubscription.add(it) }
     }
 
 }

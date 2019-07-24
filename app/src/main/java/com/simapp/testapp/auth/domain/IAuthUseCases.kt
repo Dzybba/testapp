@@ -6,6 +6,6 @@ interface IAuthUseCases {
     fun getAvailableAuthNetworks(): List<AuthTypes>
     fun saveAuthData(type: AuthTypes, token: String)
     fun removeAuthData()
-    fun loadUser(): Maybe<User>
+    fun loadUser(): Maybe<LoadUserResult>
     fun hasAuthData(): Boolean
 }
