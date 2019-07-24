@@ -10,6 +10,7 @@ import com.simapp.testapp.auth.domain.AuthTypes
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.IAuthNavigator
 import com.simapp.testapp.auth.presentation.AuthFragment
+import com.simapp.testapp.github.presentation.GitHubSearchFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, IRxActivit
         if (savedInstanceState == null) {
             supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fragment_area, AuthFragment())
+                    .replace(R.id.fragment_area, GitHubSearchFragment())
                     .commit()
         }
 

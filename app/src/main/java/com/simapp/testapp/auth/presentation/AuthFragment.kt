@@ -44,7 +44,7 @@ class AuthFragment : DaggerBaseCleanFragment<IContract.IAuthView, AuthFragmentPr
         }
     }
 
-    override fun submintAuthList(list: List<AuthListItem>) {
+    override fun submitAuthList(list: List<AuthListItem>) {
         adapter.submitList(list)
     }
 }

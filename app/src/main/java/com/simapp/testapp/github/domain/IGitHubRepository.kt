@@ -4,4 +4,5 @@ import io.reactivex.Maybe
 
 interface IGitHubRepository {
     fun searchUsers(query: String): Maybe<List<GitHubUser>>
+    fun getSearchResultSize(query: String): Int
 }

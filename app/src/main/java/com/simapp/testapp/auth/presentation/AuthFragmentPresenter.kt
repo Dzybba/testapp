@@ -30,7 +30,7 @@ class AuthFragmentPresenter @Inject constructor(
                             })
                 }
                 .also { list ->
-                    view?.submintAuthList(list)
+                    view?.submitAuthList(list)
                 }
         //подписываемся на результат при повороте экрана
         requestingAuthType?.also { type ->

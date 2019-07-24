@@ -23,4 +23,8 @@ class GitHubRepositoryImpl @Inject constructor(
         }.firstElement()
     }
 
+    override fun getSearchResultSize(query: String): Int {
+        return resultsMap[query]?.value?.size ?: 0
+    }
+
 }
