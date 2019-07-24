@@ -5,12 +5,14 @@ import com.simapp.clean.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.AuthTypes
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.IAuthNavigator
+import com.simapp.testapp.github.domain.IGitHubUseCases
 import io.reactivex.Maybe
 import javax.inject.Inject
 
 class AuthFragmentPresenter @Inject constructor(
         private val authUseCases: IAuthUseCases,
-        private val navigator: IAuthNavigator
+        private val navigator: IAuthNavigator,
+        private val gitUseCases: IGitHubUseCases
 ) : BaseCleanPresenter<IContract.IAuthView>() {
 
     private var requestingAuthType: AuthTypes? = null
@@ -38,6 +40,16 @@ class AuthFragmentPresenter @Inject constructor(
                         .handleNavigatorResult(type)
             }
         }
+        gitUseCases
+                .searchUsers("Den", 0, 20)
+                .subscribe(
+                        {
+                            Log.e("DD", "result $it")
+                        },
+                        {
+                            Log.e("DD", "error $it")
+                        }
+                )
     }
 
     fun onItemClick(type: AuthTypes) {
@@ -59,12 +71,12 @@ class AuthFragmentPresenter @Inject constructor(
                                     .loadUser()
                                     .subscribe(
                                             {
-                                                 Log.e("DD", "load user result $it")
+                                                Log.e("DD", "load user result $it")
                                             },
                                             {
                                                 //исключение
                                             }
-                            )
+                                    )
                         },
                         {
                             //log error

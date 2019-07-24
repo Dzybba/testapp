@@ -3,6 +3,7 @@ package com.simapp.testapp.di
 import android.app.Application
 import com.simapp.testapp.TestAppApplication
 import com.simapp.testapp.auth.di.AuthModule
+import com.simapp.testapp.github.di.GitHubModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -19,7 +20,8 @@ import javax.inject.Singleton
     AppModule::class,
     ActivityBindingModule::class,
     AndroidSupportInjectionModule::class,
-    AuthModule::class
+    AuthModule::class,
+    GitHubModule::class
 ])
 interface AppComponent : AndroidInjector<TestAppApplication> {
 
