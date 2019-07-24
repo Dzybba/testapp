@@ -3,6 +3,7 @@ package com.simapp.testapp.di
 import com.simapp.testapp.auth.presentation.AuthFragmentModule
 import com.simapp.testapp.github.presentation.GitHubSearchFragmentModule
 import com.simapp.testapp.ui.main.MainActivity
+import com.simapp.testapp.ui.main.MainFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -17,7 +18,8 @@ abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [
         AuthFragmentModule::class,
-        GitHubSearchFragmentModule::class
+        GitHubSearchFragmentModule::class,
+        MainFragmentModule::class
     ])
     abstract fun mainActivity(): MainActivity
 }

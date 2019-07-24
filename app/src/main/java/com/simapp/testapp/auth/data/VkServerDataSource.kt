@@ -22,7 +22,6 @@ class VkServerDataSource @Inject constructor() : IServerDataSource {
             VK.execute(request, object : VKApiCallback<JSONObject> {
                 override fun fail(error: VKApiExecutionException) {
                     //ошибочка
-                    Log.e("DD", "error load user")
                     emitter.onComplete()
                 }
 

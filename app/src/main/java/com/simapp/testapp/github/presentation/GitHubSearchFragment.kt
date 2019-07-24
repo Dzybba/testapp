@@ -32,10 +32,6 @@ class GitHubSearchFragment: DaggerBaseCleanFragment<IContract.IGitHubSearchView,
 
     private lateinit var adapter: Adapter
 
-    private val exitProcessor = PublishProcessor.create<Unit>()
-    val exitFlow: Flowable<Unit>
-        get() = exitProcessor
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = Adapter()
@@ -69,14 +65,8 @@ class GitHubSearchFragment: DaggerBaseCleanFragment<IContract.IGitHubSearchView,
             presenter?.nextPage()
         }
         exit_button.setOnClickListener {
-            exitProcessor.onNext(Unit)
-            exitProcessor.onComplete()
+            presenter?.onExitClicked()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        exitProcessor.onComplete()
     }
 
     override fun submitList(list: List<GitHubUser>) {

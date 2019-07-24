@@ -38,14 +38,12 @@ class VkAuthNavigatorImpl @Inject constructor(): IAuthNetworkNavigator {
                         val intentData = result.intent ?: Intent()
                         VK.onActivityResult(result.requestCode, result.resultCode, intentData, object : VKAuthCallback {
                             override fun onLogin(token: VKAccessToken) {
-                                Log.e("DD", "onLogin token ${token.isValid} ${token.accessToken}")
                                 if (token.isValid) {
                                     emitter.onSuccess(token.accessToken)
                                 }
                             }
 
                             override fun onLoginFailed(errorCode: Int) {
-                                Log.e("DD", "onLogin failed")
                                 //do nothing, let user choose another option
                             }
                         })

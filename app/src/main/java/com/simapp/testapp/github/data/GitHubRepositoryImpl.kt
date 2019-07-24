@@ -28,7 +28,6 @@ class GitHubRepositoryImpl @Inject constructor(
                 .loadUsers(query, page, ITEMS_PER_PAGE)
                 .subscribe(
                         { result ->
-                            Log.e("DD", "Get result ${result.total_count} ${result.items.size} $currentCount")
                             processor.onNext(GithubSearchResult(result.total_count, currentResult.items + result.items))
                         },
                         {}

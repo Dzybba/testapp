@@ -39,7 +39,6 @@ class GoogleAuthNavigatorImpl @Inject constructor(): IAuthNetworkNavigator {
                     } catch (e: ApiException) {
                         // The ApiException status code indicates the detailed failure reason.
                         // Please refer to the GoogleSignInStatusCodes class reference for more information.
-                        Log.e("DD", "account error $e")
                         Maybe.empty<String>()
                     }
                 }

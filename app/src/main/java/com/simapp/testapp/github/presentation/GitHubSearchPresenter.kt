@@ -44,6 +44,10 @@ class GitHubSearchPresenter @Inject constructor(
         subscribeOnQuery()
     }
 
+    override fun onExitClicked() {
+        authUseCases.removeAuthData()
+    }
+
     private fun subscribeOnQuery() {
         resultSearchDisposable.dispose()
         resultSearchDisposable = gitHubUseCases

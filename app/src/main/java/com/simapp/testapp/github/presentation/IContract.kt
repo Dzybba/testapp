@@ -14,5 +14,6 @@ interface IContract {
         fun onSearchQuery(query: String)
         fun getCurrentQuery(): String
         fun nextPage()
+        fun onExitClicked()
     }
 }

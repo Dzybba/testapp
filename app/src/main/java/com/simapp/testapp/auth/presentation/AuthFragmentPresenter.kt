@@ -56,16 +56,6 @@ class AuthFragmentPresenter @Inject constructor(
                         { token ->
                             requestingAuthType = null
                             authUseCases.saveAuthData(type, token)
-                            authUseCases
-                                    .getUser()
-                                    .subscribe(
-                                            {
-                                                Log.e("DD", "load user result $it")
-                                            },
-                                            {
-                                                //исключение
-                                            }
-                                    )
                         },
                         {
                             //log error

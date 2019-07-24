@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, IRxActivit
         if (savedInstanceState == null) {
             supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fragment_area, GitHubSearchFragment())
+                    .replace(R.id.fragment_area, MainFragment())
                     .commit()
         }
 

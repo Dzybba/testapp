@@ -32,7 +32,6 @@ class FbServerDataSource @Inject constructor() : IServerDataSource {
                             val jsonObject = response.jsonObject
                             try {
                                 val user = Gson().fromJson(jsonObject.toString(), FbUser::class.java)
-                                Log.e("DD", "$user")
                                 val url = user.picture["data"]?.get("url") ?: ""
                                 emitter.onSuccess(User(user.name, url))
                             } catch (th: Throwable) {

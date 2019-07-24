@@ -22,7 +22,7 @@ class AuthRepositoryImpl @Inject constructor(
 ) : IAuthRepository {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-    private val userProcessor = BehaviorProcessor.create<User>()
+    private var userProcessor = BehaviorProcessor.create<LoadUserResult>()
 
     override fun saveAuthData(type: AuthTypes, token: String) {
         prefs
@@ -38,6 +38,8 @@ class AuthRepositoryImpl @Inject constructor(
                 .remove(AUTH_TOKEN_KEY)
                 .remove(AUTH_TYPE_KEY)
                 .apply()
+        userProcessor.onComplete()
+        userProcessor = BehaviorProcessor.create()
     }
 
     override fun loadUser(): Maybe<LoadUserResult> {
@@ -51,16 +53,16 @@ class AuthRepositoryImpl @Inject constructor(
                 requestUser(type)
             }
         }
-        return userProcessor.firstElement().map { LoadUserResult(it) }
+        return userProcessor.firstElement()
     }
 
     private fun requestUser(type: AuthTypes): Maybe<LoadUserResult> {
         return getDataSource(type)
                 .requestUser()
+                .map { LoadUserResult(it) }
                 .doOnSuccess {
                     userProcessor.onNext(it)
                 }
-                .map { LoadUserResult(it) }
                 .switchIfEmpty(Maybe.just(LoadUserResult(null, AuthErrors.ERROR_LOAD_USER)))
     }
 
