@@ -1,11 +1,8 @@
 package com.simapp.testapp.github.data
 
-import com.simapp.testapp.github.domain.GitHubUser
-import io.reactivex.Flowable
+import com.simapp.testapp.github.domain.GithubSearchResult
 import io.reactivex.Maybe
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,17 +13,15 @@ import javax.inject.Singleton
 
 private interface IGithubApiService {
     @GET("search/users")
-    fun search(@Query("q") query: String): Maybe<GithubSearchResult>
+    fun search(
+            @Query("q") query: String,
+            @Query("page") page: String,
+            @Query("per_page") perPage: String
+    ): Maybe<GithubSearchResult>
 }
-
-private data class GithubSearchResult(
-        val items: List<GitHubUser>? = null
-)
 
 @Singleton
 class GitHubDataSourceImpl @Inject constructor() : IGitHubDataSource {
-
-    private val compositeDisposable = CompositeDisposable()
 
     private val apiService = Retrofit.Builder()
             .baseUrl(GITHUB_URL)
@@ -35,27 +30,11 @@ class GitHubDataSourceImpl @Inject constructor() : IGitHubDataSource {
             .build()
             .create(IGithubApiService::class.java)
 
-    override fun loadUsers(query: String, processor: Subscriber<List<GitHubUser>>) {
-        apiService
-                .search(query)
+    override fun loadUsers(query: String, page: Int, perPage: Int): Maybe<GithubSearchResult> {
+        return apiService
+                .search(query, page.toString(), perPage.toString())
                 .subscribeOn(Schedulers.io())
-                .subscribe(
-                        { result ->
-                            if (result.items != null) {
-                                processor.onNext(result.items)
-                            } else {
-                                processor.onNext(listOf())
-                            }
-                        },
-                        {
-                            processor.onNext(listOf())
-                        }
-                )
-                .also {
-                    compositeDisposable.add(it)
-                }
     }
-
 
     companion object {
         private const val GITHUB_URL = "https://api.github.com/"

@@ -1,26 +1,29 @@
 package com.simapp.testapp.github.domain
 
-import io.reactivex.Maybe
+import io.reactivex.Flowable
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.min
 
 @Singleton
 class GitHubUseCasesImpl @Inject constructor(
         private val repository: IGitHubRepository
-): IGitHubUseCases {
+) : IGitHubUseCases {
 
-    override fun searchUsers(query: String, offset: Int, len: Int): Maybe<List<GitHubUser>> {
-        return repository
+    override fun searchUsers(query: String) {
+        repository
                 .searchUsers(query)
-                .map { result ->
-                    if (result.isEmpty() || offset > result.size - 1) listOf() else
-                        result.subList(offset, min(offset + len, result.size -1))
-                }
     }
 
-    override fun hasMore(query: String, offset: Int): Boolean {
-        return repository.getSearchResultSize(query) > offset
+    override fun hasResults(query: String): Boolean {
+        return repository.getQueryExist(query)
+    }
+
+    override fun getSearchUsersFlow(query: String): Flowable<List<GitHubUser>> {
+        return repository.getSearchUsersFlow(query)
+    }
+
+    override fun hasMore(query: String): Boolean {
+        return repository.getHasMore(query)
     }
 
 }

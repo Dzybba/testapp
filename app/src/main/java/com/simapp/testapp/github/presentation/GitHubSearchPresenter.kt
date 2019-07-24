@@ -1,21 +1,26 @@
 package com.simapp.testapp.github.presentation
 
+import android.util.Log
 import com.simapp.clean.base.presentation.BaseCleanPresenter
+import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.github.domain.GitHubUser
 import com.simapp.testapp.github.domain.IGitHubUseCases
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposables
 import io.reactivex.processors.PublishProcessor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GitHubSearchPresenter @Inject constructor(
-        private val gitHubUseCases: IGitHubUseCases
+        private val gitHubUseCases: IGitHubUseCases,
+        private val authUseCases: IAuthUseCases
 ) : BaseCleanPresenter<IContract.IGitHubSearchView>(), IContract.IGitHubSearchPresenter {
 
     private val queryTextProcessor = PublishProcessor.create<String>()
 
+    private var resultSearchDisposable = Disposables.disposed()
+
     private var currentQuery = ""
-    private var currentOffset = 0
 
     init {
         handleOnQueryTextChange()
@@ -23,7 +28,36 @@ class GitHubSearchPresenter @Inject constructor(
 
     override fun onStart() {
         super.onStart()
-        view?.setVisibleNextButton(gitHubUseCases.hasMore(currentQuery, currentOffset))
+        view?.setVisibleNextButton(gitHubUseCases.hasMore(currentQuery))
+        authUseCases
+                .getUser()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    it.user?.also { user ->
+                        view?.setCurrentUser(user)
+                    }
+                }
+                .also {
+                    onStartViewSubscription.add(it)
+                }
+
+        subscribeOnQuery()
+    }
+
+    private fun subscribeOnQuery() {
+        resultSearchDisposable.dispose()
+        resultSearchDisposable = gitHubUseCases
+                .getSearchUsersFlow(currentQuery)
+                .map {
+                    it.takeLast(LIST_SIZE)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            handleSearchResult(it)
+                        },
+                        { }
+                )
     }
 
     override fun onSearchQuery(query: String) {
@@ -40,36 +74,26 @@ class GitHubSearchPresenter @Inject constructor(
         queryTextProcessor
                 .buffer(BUFFER_TIME, TimeUnit.MILLISECONDS)
                 .filter { strings -> strings.isNotEmpty() }
-                .flatMapMaybe { strings ->
-                    currentOffset = 0
-                    gitHubUseCases.searchUsers(strings.last(), currentOffset, LIST_SIZE)
+                .map { strings ->
+                    strings.last()
                 }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result ->
-                    handleSearchResult(result)
+                .subscribe { query ->
+                    if (!gitHubUseCases.hasResults(query)) {
+                        gitHubUseCases.searchUsers(query)
+                    }
+                    subscribeOnQuery()
                 }
                 .also { onCreatePresenterSubscription.add(it) }
     }
 
     private fun handleSearchResult(result: List<GitHubUser>) {
-        currentOffset = result.size
-        view?.setVisibleNextButton(gitHubUseCases.hasMore(currentQuery, currentOffset))
+        view?.setVisibleNextButton(gitHubUseCases.hasMore(currentQuery))
         view?.submitList(result)
     }
 
     override fun nextPage() {
-        gitHubUseCases
-                .searchUsers(currentQuery, currentOffset, LIST_SIZE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            handleSearchResult(it)
-                        },
-                        {
-
-                        })
-                .also { onStartViewSubscription.add(it) }
-
+        gitHubUseCases.searchUsers(currentQuery)
     }
 
 

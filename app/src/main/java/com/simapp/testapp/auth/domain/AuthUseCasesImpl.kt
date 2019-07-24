@@ -21,7 +21,7 @@ class AuthUseCasesImpl @Inject constructor(
         repository.removeAuthData()
     }
 
-    override fun loadUser(): Maybe<LoadUserResult> {
+    override fun getUser(): Maybe<LoadUserResult> {
         return repository.loadUser()
     }
 

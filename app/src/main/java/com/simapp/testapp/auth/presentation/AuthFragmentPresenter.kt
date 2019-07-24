@@ -11,8 +11,7 @@ import javax.inject.Inject
 
 class AuthFragmentPresenter @Inject constructor(
         private val authUseCases: IAuthUseCases,
-        private val navigator: IAuthNavigator,
-        private val gitUseCases: IGitHubUseCases
+        private val navigator: IAuthNavigator
 ) : BaseCleanPresenter<IContract.IAuthView>() {
 
     private var requestingAuthType: AuthTypes? = null
@@ -40,16 +39,6 @@ class AuthFragmentPresenter @Inject constructor(
                         .handleNavigatorResult(type)
             }
         }
-        gitUseCases
-                .searchUsers("Den", 0, 20)
-                .subscribe(
-                        {
-                            Log.e("DD", "result $it")
-                        },
-                        {
-                            Log.e("DD", "error $it")
-                        }
-                )
     }
 
     fun onItemClick(type: AuthTypes) {
@@ -68,7 +57,7 @@ class AuthFragmentPresenter @Inject constructor(
                             requestingAuthType = null
                             authUseCases.saveAuthData(type, token)
                             authUseCases
-                                    .loadUser()
+                                    .getUser()
                                     .subscribe(
                                             {
                                                 Log.e("DD", "load user result $it")

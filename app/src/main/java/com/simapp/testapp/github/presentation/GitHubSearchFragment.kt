@@ -12,10 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.simapp.clean.base.presentation.DaggerBaseCleanFragment
 import com.simapp.testapp.R
+import com.simapp.testapp.auth.domain.User
 import com.simapp.testapp.github.domain.GitHubUser
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import io.reactivex.Flowable
+import io.reactivex.processors.PublishProcessor
 import kotlinx.android.synthetic.main.github_search_fragment_layout.*
 import kotlinx.android.synthetic.main.github_user_list_item.view.*
 
@@ -28,6 +31,10 @@ abstract class GitHubSearchFragmentModule {
 class GitHubSearchFragment: DaggerBaseCleanFragment<IContract.IGitHubSearchView, GitHubSearchPresenter>(), IContract.IGitHubSearchView {
 
     private lateinit var adapter: Adapter
+
+    private val exitProcessor = PublishProcessor.create<Unit>()
+    val exitFlow: Flowable<Unit>
+        get() = exitProcessor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +68,31 @@ class GitHubSearchFragment: DaggerBaseCleanFragment<IContract.IGitHubSearchView,
         next_button.setOnClickListener {
             presenter?.nextPage()
         }
+        exit_button.setOnClickListener {
+            exitProcessor.onNext(Unit)
+            exitProcessor.onComplete()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        exitProcessor.onComplete()
     }
 
     override fun submitList(list: List<GitHubUser>) {
+        adapter.submitList(null)
         adapter.submitList(list)
     }
 
     override fun setVisibleNextButton(visible: Boolean) {
         next_button.visibility = if (visible) View.VISIBLE else View.GONE
     }
+
+    override fun setCurrentUser(currentUser: User) {
+        Picasso.with(context).load(currentUser.photoUrl).into(avatar)
+        user_nick.text = currentUser.name
+    }
+
 }
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

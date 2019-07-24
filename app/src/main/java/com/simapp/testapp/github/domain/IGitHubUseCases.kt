@@ -1,8 +1,10 @@
 package com.simapp.testapp.github.domain
 
-import io.reactivex.Maybe
+import io.reactivex.Flowable
 
 interface IGitHubUseCases {
-    fun searchUsers(query: String, offset: Int, len: Int): Maybe<List<GitHubUser>>
-    fun hasMore(query: String, offset: Int): Boolean
+    fun searchUsers(query: String)
+    fun getSearchUsersFlow(query: String): Flowable<List<GitHubUser>>
+    fun hasMore(query: String): Boolean
+    fun hasResults(query: String): Boolean
 }
