@@ -1,6 +1,6 @@
 package com.simapp.testapp.ui.main
 
-import com.simapp.clean.base.presentation.BaseCleanPresenter
+import com.simapp.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.AuthErrors
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import io.reactivex.android.schedulers.AndroidSchedulers

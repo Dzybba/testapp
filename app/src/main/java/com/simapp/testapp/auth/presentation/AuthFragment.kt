@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.simapp.clean.base.presentation.DaggerBaseCleanFragment
+import com.simapp.base.presentation.DaggerBaseCleanFragment
 import com.simapp.testapp.R
 import com.simapp.testapp.auth.domain.AuthTypes
 import dagger.Module

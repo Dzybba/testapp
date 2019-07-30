@@ -1,11 +1,11 @@
-package com.simapp.clean.base.presentation
+package com.simapp.base.presentation
 
 import android.arch.lifecycle.*
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import io.reactivex.disposables.CompositeDisposable
 
-class BaseCleanViewPrivateImpl<V : CleanView, P : BaseCleanPresenter<V>>(private val optionalGetter: (() -> P?)? = null) {
+class BaseCleanViewPrivateImpl<V : CleanView, P : BaseCleanPresenter<V>> {
 
     private lateinit var publicImpl: CleanView
 
@@ -13,19 +13,10 @@ class BaseCleanViewPrivateImpl<V : CleanView, P : BaseCleanPresenter<V>>(private
     val onCreateSubscription = CompositeDisposable()
     val onStartSubscription = CompositeDisposable()
 
-    fun onCreate(publicImpl: CleanView, viewModelFactory: ViewModelProvider.Factory? = null, initPresenter: () -> P?) {
+    fun onCreate(publicImpl: CleanView, viewModelFactory: ViewModelProvider.Factory? = null) {
         this.publicImpl = publicImpl
         val viewModel = getViewModelProvider(viewModelFactory).get(getBaseViewModelClass<CleanPresenterStorage<V, P>>())
-
         presenter = viewModel.presenter
-        if (presenter == null) {
-            presenter = optionalGetter?.invoke()
-        }
-        if (presenter == null) {
-            viewModel.presenter = initPresenter()
-            viewModel.presenter?.onPresenterCreated()
-            presenter = viewModel.presenter
-        }
         presenter?.attachPresentedView(publicImpl as V)
         presenter?.attachLifecycle(getLifecycle())
     }

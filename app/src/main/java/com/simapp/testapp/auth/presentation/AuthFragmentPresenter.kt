@@ -1,11 +1,9 @@
 package com.simapp.testapp.auth.presentation
 
-import android.util.Log
-import com.simapp.clean.base.presentation.BaseCleanPresenter
+import com.simapp.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.AuthTypes
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.IAuthNavigator
-import com.simapp.testapp.github.domain.IGitHubUseCases
 import io.reactivex.Maybe
 import javax.inject.Inject
 

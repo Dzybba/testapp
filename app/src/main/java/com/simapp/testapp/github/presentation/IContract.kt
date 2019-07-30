@@ -1,6 +1,6 @@
 package com.simapp.testapp.github.presentation
 
-import com.simapp.clean.base.presentation.CleanView
+import com.simapp.base.presentation.CleanView
 import com.simapp.testapp.auth.domain.User
 import com.simapp.testapp.github.domain.GitHubUser
 

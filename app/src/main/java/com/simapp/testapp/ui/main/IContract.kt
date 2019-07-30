@@ -1,6 +1,6 @@
 package com.simapp.testapp.ui.main
 
-import com.simapp.clean.base.presentation.CleanView
+import com.simapp.base.presentation.CleanView
 
 interface IContract {
     interface IMainView: CleanView {

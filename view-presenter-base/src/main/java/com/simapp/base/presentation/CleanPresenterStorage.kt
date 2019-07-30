@@ -1,4 +1,4 @@
-package com.simapp.clean.base.presentation
+package com.simapp.base.presentation
 
 import android.arch.lifecycle.ViewModel
 import javax.inject.Inject

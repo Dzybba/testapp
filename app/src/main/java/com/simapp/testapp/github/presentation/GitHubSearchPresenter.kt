@@ -1,7 +1,6 @@
 package com.simapp.testapp.github.presentation
 
-import android.util.Log
-import com.simapp.clean.base.presentation.BaseCleanPresenter
+import com.simapp.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.github.domain.GitHubUser
 import com.simapp.testapp.github.domain.IGitHubUseCases

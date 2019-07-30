@@ -1,4 +1,4 @@
-package com.simapp.clean.base.dagger
+package com.simapp.base.dagger
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

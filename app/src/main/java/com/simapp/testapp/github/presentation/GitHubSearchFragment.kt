@@ -10,15 +10,13 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.simapp.clean.base.presentation.DaggerBaseCleanFragment
+import com.simapp.base.presentation.DaggerBaseCleanFragment
 import com.simapp.testapp.R
 import com.simapp.testapp.auth.domain.User
 import com.simapp.testapp.github.domain.GitHubUser
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import io.reactivex.Flowable
-import io.reactivex.processors.PublishProcessor
 import kotlinx.android.synthetic.main.github_search_fragment_layout.*
 import kotlinx.android.synthetic.main.github_user_list_item.view.*
 

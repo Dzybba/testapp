@@ -20,7 +20,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':clean-base')
+    implementation project(':view-presenter-base')
 
     //Kotlin
     implementation rootProject.ext.kotlin_std_lib

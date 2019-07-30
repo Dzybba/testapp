@@ -1,4 +1,4 @@
-package com.simapp.clean.base.presentation
+package com.simapp.base.presentation
 
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
