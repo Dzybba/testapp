@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import io.reactivex.disposables.CompositeDisposable
 
-class BaseCleanViewPrivateImpl<V : CleanView, P : BaseCleanPresenter<V>> {
+class BaseCleanViewPrivateImpl<V : CleanView, P : CleanPresenter<V>> {
 
     private lateinit var publicImpl: CleanView
 

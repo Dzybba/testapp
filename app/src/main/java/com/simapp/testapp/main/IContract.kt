@@ -1,5 +1,6 @@
 package com.simapp.testapp.main
 
+import com.simapp.base.presentation.CleanPresenter
 import com.simapp.base.presentation.CleanView
 
 interface IContract {
@@ -7,7 +8,7 @@ interface IContract {
         fun showAuthView()
         fun showGitHubView()
     }
-    interface IMainViewPresenter {
+    interface IMainViewPresenter: CleanPresenter<IMainView>{
         fun onViewCreated()
     }
 }

@@ -17,11 +17,11 @@ import kotlinx.android.synthetic.main.auth_list_item.view.*
 
 @Module
 abstract class AuthFragmentModule {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [AuthFragmentPresenterModule::class])
     abstract fun getFragment(): AuthFragment
 }
 
-class AuthFragment : DaggerBaseCleanFragment<IContract.IAuthView, AuthFragmentPresenter>(), IContract.IAuthView {
+class AuthFragment : DaggerBaseCleanFragment<IContract.IAuthView, IContract.IPresenter>(), IContract.IAuthView {
 
     private lateinit var adapter: Adapter
 
@@ -58,7 +58,6 @@ class ViewHolder(itemView: View, private val onClick: (AuthTypes) -> Unit) : Rec
         }
     }
 }
-
 
 class Adapter(private val onClick: (AuthTypes) -> Unit) : ListAdapter<AuthListItem, ViewHolder>(object : DiffUtil.ItemCallback<AuthListItem>() {
     override fun areItemsTheSame(oldItem: AuthListItem?, newItem: AuthListItem?) = oldItem == newItem

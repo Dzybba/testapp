@@ -3,8 +3,16 @@ package com.simapp.testapp.main
 import com.simapp.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.AuthErrors
 import com.simapp.testapp.auth.domain.IAuthUseCases
+import dagger.Binds
+import dagger.Module
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
+
+@Module
+abstract class MainFragmentPresenterModule {
+    @Binds
+    abstract fun getPresenter(presenter: MainFragmentPresenter): IContract.IMainViewPresenter
+}
 
 class MainFragmentPresenter @Inject constructor(
         private val authUseCases: IAuthUseCases

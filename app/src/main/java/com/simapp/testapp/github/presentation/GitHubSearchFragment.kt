@@ -22,11 +22,11 @@ import kotlinx.android.synthetic.main.github_user_list_item.view.*
 
 @Module
 abstract class GitHubSearchFragmentModule {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [GitHubSearchPresenterModule::class])
     abstract fun getFragment(): GitHubSearchFragment
 }
 
-class GitHubSearchFragment: DaggerBaseCleanFragment<IContract.IGitHubSearchView, GitHubSearchPresenter>(), IContract.IGitHubSearchView {
+class GitHubSearchFragment: DaggerBaseCleanFragment<IContract.IGitHubSearchView, IContract.IGitHubSearchPresenter>(), IContract.IGitHubSearchView {
 
     private lateinit var adapter: Adapter
 

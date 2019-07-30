@@ -14,7 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-open class DaggerBaseCleanFragment<V : CleanView, P : BaseCleanPresenter<V>> : Fragment(), CleanView {
+open class DaggerBaseCleanFragment<V : CleanView, P : CleanPresenter<V>> : Fragment(), CleanView {
 
     var daggerViewModelFactory: DaggerViewModelFactory<CleanPresenterStorage<V, P>>? = null
         @Inject
@@ -58,7 +58,7 @@ open class DaggerBaseCleanFragment<V : CleanView, P : BaseCleanPresenter<V>> : F
     }
 }
 
-abstract class DaggerBaseCleanDialogFragment<V : CleanView, P : BaseCleanPresenter<V>> : DialogFragment(), CleanView {
+open class DaggerBaseCleanDialogFragment<V : CleanView, P : CleanPresenter<V>> : DialogFragment(), CleanView {
 
     var daggerViewModelFactory: DaggerViewModelFactory<CleanPresenterStorage<V, P>>? = null
         @Inject
@@ -102,7 +102,7 @@ abstract class DaggerBaseCleanDialogFragment<V : CleanView, P : BaseCleanPresent
     }
 }
 
-open class DaggerBaseCleanBottomSheetFragment<V : CleanView, P : BaseCleanPresenter<V>> : BottomSheetDialogFragment(), CleanView {
+open class DaggerBaseCleanBottomSheetFragment<V : CleanView, P : CleanPresenter<V>> : BottomSheetDialogFragment(), CleanView {
 
     var daggerViewModelFactory: DaggerViewModelFactory<CleanPresenterStorage<V, P>>? = null
         @Inject

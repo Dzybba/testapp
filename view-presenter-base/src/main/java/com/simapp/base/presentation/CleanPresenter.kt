@@ -1,12 +1,11 @@
 package com.simapp.base.presentation
 
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
 import android.os.Bundle
 
 
-interface CleanPresenter<V : CleanView> {
-
-    fun getStateBundle(): Bundle
+interface CleanPresenter<V : CleanView>: LifecycleObserver {
 
     fun attachLifecycle(lifecycle: Lifecycle)
 
@@ -19,8 +18,6 @@ interface CleanPresenter<V : CleanView> {
     fun detachView()
 
     fun isViewAttached(): Boolean
-
-    fun onPresenterCreated()
 
     fun onPresenterDestroy()
 }

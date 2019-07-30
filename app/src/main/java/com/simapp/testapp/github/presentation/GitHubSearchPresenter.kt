@@ -4,11 +4,19 @@ import com.simapp.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.github.domain.GitHubUser
 import com.simapp.testapp.github.domain.IGitHubUseCases
+import dagger.Binds
+import dagger.Module
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.reactivex.processors.PublishProcessor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+@Module
+abstract class GitHubSearchPresenterModule {
+    @Binds
+    abstract fun getPresenter(presenter: GitHubSearchPresenter): IContract.IGitHubSearchPresenter
+}
 
 class GitHubSearchPresenter @Inject constructor(
         private val gitHubUseCases: IGitHubUseCases,

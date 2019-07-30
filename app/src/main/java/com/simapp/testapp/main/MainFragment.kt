@@ -13,11 +13,11 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainFragmentModule {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MainFragmentPresenterModule::class])
     abstract fun getFragment(): MainFragment
 }
 
-class MainFragment: DaggerBaseCleanFragment<IContract.IMainView, MainFragmentPresenter>(), IContract.IMainView {
+class MainFragment: DaggerBaseCleanFragment<IContract.IMainView, IContract.IMainViewPresenter>(), IContract.IMainView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_fragment_layout, container, false)

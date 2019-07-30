@@ -1,18 +1,14 @@
 package com.simapp.base.presentation
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
-import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import io.reactivex.disposables.CompositeDisposable
 
+open class BaseCleanPresenter<V : CleanView> : CleanPresenter<V> {
 
-open class BaseCleanPresenter<V : CleanView> : LifecycleObserver, CleanPresenter<V> {
-
-    private var stateBundle: Bundle = Bundle()
     var view: V? = null
 
     protected val onCreatePresenterSubscription = CompositeDisposable()
@@ -43,17 +39,8 @@ open class BaseCleanPresenter<V : CleanView> : LifecycleObserver, CleanPresenter
         return view != null
     }
 
-    final override fun getStateBundle(): Bundle {
-        return stateBundle
-    }
-
     override fun onPresenterDestroy() {
-        stateBundle.clear()
         onCreatePresenterSubscription.dispose()
-    }
-
-    override fun onPresenterCreated() {
-        // do nothing
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

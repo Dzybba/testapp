@@ -4,13 +4,21 @@ import com.simapp.base.presentation.BaseCleanPresenter
 import com.simapp.testapp.auth.domain.AuthTypes
 import com.simapp.testapp.auth.domain.IAuthUseCases
 import com.simapp.testapp.auth.navigator.IAuthNavigator
+import dagger.Binds
+import dagger.Module
 import io.reactivex.Maybe
 import javax.inject.Inject
+
+@Module
+abstract class AuthFragmentPresenterModule {
+    @Binds
+    abstract fun getPresenter(preseneter: AuthFragmentPresenter): IContract.IPresenter
+}
 
 class AuthFragmentPresenter @Inject constructor(
         private val authUseCases: IAuthUseCases,
         private val navigator: IAuthNavigator
-) : BaseCleanPresenter<IContract.IAuthView>() {
+) : BaseCleanPresenter<IContract.IAuthView>(), IContract.IPresenter {
 
     private var requestingAuthType: AuthTypes? = null
 
@@ -39,7 +47,8 @@ class AuthFragmentPresenter @Inject constructor(
         }
     }
 
-    fun onItemClick(type: AuthTypes) {
+
+    override fun onItemClick(type: AuthTypes) {
         withActivity {
             requestingAuthType = type
             navigator
