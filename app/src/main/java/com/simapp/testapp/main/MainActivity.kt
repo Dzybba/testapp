@@ -1,22 +1,15 @@
-package com.simapp.testapp.ui.main
+package com.simapp.testapp.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.simapp.testapp.R
-import com.simapp.testapp.auth.domain.AuthTypes
-import com.simapp.testapp.auth.domain.IAuthUseCases
-import com.simapp.testapp.auth.navigator.IAuthNavigator
-import com.simapp.testapp.auth.presentation.AuthFragment
-import com.simapp.testapp.github.presentation.GitHubSearchFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.Flowable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.PublishProcessor
 import javax.inject.Inject
 

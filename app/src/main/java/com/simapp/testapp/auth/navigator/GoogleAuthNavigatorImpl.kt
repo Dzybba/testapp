@@ -1,11 +1,10 @@
 package com.simapp.testapp.auth.navigator
 
 import android.support.v4.app.FragmentActivity
-import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.simapp.testapp.ui.main.IRxActivity
+import com.simapp.testapp.main.IRxActivity
 import io.reactivex.Maybe
 import javax.inject.Inject
 

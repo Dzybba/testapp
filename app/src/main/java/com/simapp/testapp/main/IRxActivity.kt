@@ -1,4 +1,4 @@
-package com.simapp.testapp.ui.main
+package com.simapp.testapp.main
 
 import android.content.Intent
 import io.reactivex.Flowable

@@ -2,8 +2,8 @@ package com.simapp.testapp.di
 
 import com.simapp.testapp.auth.presentation.AuthFragmentModule
 import com.simapp.testapp.github.presentation.GitHubSearchFragmentModule
-import com.simapp.testapp.ui.main.MainActivity
-import com.simapp.testapp.ui.main.MainFragmentModule
+import com.simapp.testapp.main.MainActivity
+import com.simapp.testapp.main.MainFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

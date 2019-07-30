@@ -1,4 +1,4 @@
-package com.simapp.testapp.ui.main
+package com.simapp.testapp.main
 
 import com.simapp.base.presentation.CleanView
 

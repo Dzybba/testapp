@@ -1,4 +1,4 @@
-package com.simapp.testapp.ui.main
+package com.simapp.testapp.main
 
 import android.os.Bundle
 import android.view.LayoutInflater

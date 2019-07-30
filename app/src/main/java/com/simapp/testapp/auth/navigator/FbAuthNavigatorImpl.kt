@@ -7,7 +7,7 @@ import com.facebook.FacebookException
 import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.simapp.testapp.R
-import com.simapp.testapp.ui.main.IRxActivity
+import com.simapp.testapp.main.IRxActivity
 import io.reactivex.Maybe
 import javax.inject.Inject
 

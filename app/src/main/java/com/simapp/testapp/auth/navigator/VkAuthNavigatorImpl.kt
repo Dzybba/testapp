@@ -3,8 +3,7 @@ package com.simapp.testapp.auth.navigator
 import android.app.Activity
 import android.content.Intent
 import android.support.v4.app.FragmentActivity
-import android.util.Log
-import com.simapp.testapp.ui.main.IRxActivity
+import com.simapp.testapp.main.IRxActivity
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
